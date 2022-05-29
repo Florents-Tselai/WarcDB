@@ -105,8 +105,8 @@ class WarcDB(Database):
     def __iadd__(self, fileobj):
         for f in always_iterable(fileobj):
             with open(f, 'rb') as stream:
-                for r in ArchiveIterator(stream):
-                    self.table('records').insert({
+                self.table('records').insert_all(
+                    ({
                         'format': r.format,
                         'rec_type': r.rec_type,
                         'rec_headers': dumps(r.rec_headers, cls=StatusAndHeadersJsonEncoder),
@@ -115,7 +115,9 @@ class WarcDB(Database):
                         'content_type': r.content_type,
                         'length_': r.length,
                         'payload_length': r.payload_length
-                    })
+                    } for r in ArchiveIterator(stream)
+                    )
+                )
 
 
 @click.group(name='cli')
