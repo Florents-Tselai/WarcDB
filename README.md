@@ -1,7 +1,6 @@
 # warcio-SQLite
-================
 
- CLI tool to load WARC (and ARC) files into SQLite
+CLI tool to load WARC (and ARC) files into SQLite
 
 Example
 -------
