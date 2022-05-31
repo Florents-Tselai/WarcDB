@@ -11,7 +11,9 @@ Example
 Usage: warcio-sqlite import [OPTIONS] [FILES]... DEST
 
 Options:
-  --help  Show this message and exit.
+  -b, --batch-size INTEGER  Batch size for chunked INSERTs
+  --help                    Show this message and exit.
+
 ```
 
 ```shell

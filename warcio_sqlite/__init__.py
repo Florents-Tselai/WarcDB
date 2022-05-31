@@ -49,6 +49,8 @@ class WarcDB(Database):
     )""")
 
     def __init__(self, *args, **kwargs):
+        self._batch_size = kwargs.pop('batch_size', 1000)
+
         super().__init__(*args, **kwargs)
         self.conn.execute(self._schema)
 
@@ -66,7 +68,8 @@ class WarcDB(Database):
                         'length_': r.length,
                         'payload_length': r.payload_length
                     } for r in ArchiveIterator(stream)
-                    )
+                    ),
+                    batch_size=self._batch_size
                 )
 
 
@@ -79,6 +82,7 @@ def cli():
 @cli.command('import')
 @click.argument('files', nargs=-1)
 @click.argument('dest')
-def import_(files, dest):
-    db = WarcDB(dest)
+@click.option('-b', '--batch-size', type=click.INT, default=1000, help="Batch size for chunked INSERTs")
+def import_(files, dest, batch_size):
+    db = WarcDB(dest, batch_size=batch_size)
     db += files
