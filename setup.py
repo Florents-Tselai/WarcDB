@@ -29,7 +29,7 @@ setup(
     ],
     entry_points="""
         [console_scripts]
-        warcio-sqlite=warcio_sqlite.cli:cli
+        warcio-sqlite=warcio_sqlite:cli
     """,
     url="https://github.com/Florents-Tselai/warcio-sqlite",
     project_urls={

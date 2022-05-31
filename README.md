@@ -5,7 +5,7 @@ CLI tool to load WARC (and ARC) files into SQLite
 Example
 -------
 
-    warcio-sqlite import ./data/*.warc ./data/*.warc.gz warc.db 
+    warcio-sqlite import ./data/example.warc ./data/example.warc.gz warc.db 
 
 ```shell
 Usage: warcio-sqlite import [OPTIONS] [FILES]... DEST
