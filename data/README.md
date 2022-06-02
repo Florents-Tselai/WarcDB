@@ -1,1 +1,0 @@
-Test data copied from the [warcio package](https://github.com/webrecorder/warcio)

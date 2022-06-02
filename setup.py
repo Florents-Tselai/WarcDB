@@ -14,8 +14,8 @@ def get_long_description():
 
 
 setup(
-    name="warcio-sqlite",
-    description="CLI tool to load .warc files into SQLite",
+    name="warcdb",
+    description="# WarcDB: Web crawl data as SQLite databases",
     long_description=get_long_description(),
     long_description_content_type="text/markdown",
     author="Florents Tselai",
@@ -29,13 +29,13 @@ setup(
     ],
     entry_points="""
         [console_scripts]
-        warcio-sqlite=warcio_sqlite:cli
+        warcdb=warcdb:cli
     """,
-    url="https://github.com/Florents-Tselai/warcio-sqlite",
+    url="https://github.com/Florents-Tselai/warcdb",
     project_urls={
-        "Source code": "https://github.com/Florents-Tselai/warcio-sqlite",
-        "Issues": "https://github.com/Florents-Tselai/warcio-sqlite/issues",
-        "CI": "https://github.com/Florents-Tselai/warcio-sqlite/actions",
+        "Source code": "https://github.com/Florents-Tselai/warcdb",
+        "Issues": "https://github.com/Florents-Tselai/warcdb/issues",
+        "CI": "https://github.com/Florents-Tselai/warcdb/actions",
     },
     python_requires=">=3.6",
     classifiers=[

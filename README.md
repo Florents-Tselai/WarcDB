@@ -1,29 +1,36 @@
-# warcio-SQLite
+# # WarcDB: Web crawl data as SQLite databases.
 
-CLI tool to load WARC (and ARC) files into SQLite
 
-Example
--------
+`WarcDB` is a an `SQLite`-based file format that makes web crawl data easier to share and query.
 
-    warcio-sqlite import ./data/example.warc ./data/example.warc.gz warc.db 
+## Motivation
+
+From the `WARC` [formal specification](https://iipc.github.io/warc-specifications/specifications/warc-format/warc-1.1/):
+
+> The WARC (Web ARChive) file format offers a convention for concatenating multiple resource records (data objects), each consisting of a set of simple text headers and an arbitrary data block into one long file.
+
+Many organizations such as Commoncrawl, WebRecorder, Archive.org and libraries around the world, use the `warc` format to archive and store the web.
+
+From my experience, Commoncrawl in particular offers
+
+## Examples
+
+### Multiple `.warc[gz]` files into a `.warcdb`
 
 ```shell
-Usage: warcio-sqlite import [OPTIONS] [FILES]... DEST
-
-Options:
-  -b, --batch-size INTEGER  Batch size for chunked INSERTs
-  --help                    Show this message and exit.
-
+warcdb import ./example.warcdb ./tests/example.warc ./tests/example.warc.gz --batch-size 10000
 ```
 
-```shell
-Usage: warcio-sqlite [OPTIONS] COMMAND [ARGS]...
+### Pipe `wget -x` to `.warcdb`
 
-  CLI tool to load WARC (and ARC) files into SQLite
+TODO 
 
-Options:
-  --help  Show this message and exit.
+### Concat multiple `.warcdb`
 
-Commands:
-  import
-```
+TODO: use  `ATTACH`
+
+
+Resources on WARC
+----------------
+* [The stack: An introduction to the WARC file](https://archive-it.org/blog/post/the-stack-warc-file/)
+
