@@ -1,4 +1,4 @@
-# # WarcDB: Web crawl data as SQLite databases.
+# WarcDB: Web crawl data as SQLite databases.
 
 
 `WarcDB` is a an `SQLite`-based file format that makes web crawl data easier to share and query.
