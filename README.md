@@ -1,17 +1,19 @@
 # WarcDB: Web crawl data as SQLite databases.
 
-
 `WarcDB` is a an `SQLite`-based file format that makes web crawl data easier to share and query.
 
 ## Motivation
 
 From the `WARC` [formal specification](https://iipc.github.io/warc-specifications/specifications/warc-format/warc-1.1/):
 
-> The WARC (Web ARChive) file format offers a convention for concatenating multiple resource records (data objects), each consisting of a set of simple text headers and an arbitrary data block into one long file.
+> The WARC (Web ARChive) file format offers a convention for concatenating multiple resource records (data objects), each consisting of a set of simple text headers and an arbitrary data block into one long file. 
 
-Many organizations such as Commoncrawl, WebRecorder, Archive.org and libraries around the world, use the `warc` format to archive and store the web.
+Many organizations such as Commoncrawl, WebRecorder, Archive.org and libraries around the world, use the `warc` format to archive and store web data.
 
-From my experience, Commoncrawl in particular offers
+The full datasets of these services range in the few pebibytes(PiB),
+making them impractical to query using non-distributed systems.
+
+This project aims to make **subsets** of this data easier to access and query using SQL. 
 
 ## Examples
 
@@ -24,6 +26,9 @@ warcdb import ./example.warcdb ./tests/example.warc ./tests/example.warc.gz --ba
 ### Pipe `wget -x` to `.warcdb`
 
 TODO 
+
+### Streaming from remote files / archives
+
 
 ### Concat multiple `.warcdb`
 
