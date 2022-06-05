@@ -122,13 +122,14 @@ class WarcDB(MutableMapping):
         )
 
 
-@click.group(name='cli')
-def cli():
-    """CLI tool to create and manipulate .warcdb files"""
-    pass
+from sqlite_utils import cli as sqlite_utils_cli
+
+warcdb_cli = sqlite_utils_cli.cli
+warcdb_cli.help = \
+    "Commands for interacting with .warcdb databases\n\nBased on SQLite-Utils"
 
 
-@cli.command('import')
+@warcdb_cli.command('import')
 @click.argument(
     "db_path",
     type=click.Path(file_okay=True, dir_okay=False, allow_dash=False),
@@ -150,7 +151,3 @@ def import_(db_path, warc_path, batch_size):
                     yield record
 
     db += to_import()
-
-
-def add():
-    pass

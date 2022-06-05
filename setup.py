@@ -29,7 +29,7 @@ setup(
     ],
     entry_points="""
         [console_scripts]
-        warcdb=warcdb:cli
+        warcdb=warcdb:warcdb_cli
     """,
     url="https://github.com/Florents-Tselai/warcdb",
     project_urls={
