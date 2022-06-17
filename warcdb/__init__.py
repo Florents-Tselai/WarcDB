@@ -34,28 +34,24 @@ def headers_to_json(self):
 
 setattr(StatusAndHeaders, 'to_json', headers_to_json)
 
+""" Monkeypatch warcio.ArcWarcRecord.payload """
+
+
+@cache  # It's important that we cache this, as the content_stream() can only be consumed once.
+def record_payload(self: ArcWarcRecord):
+    return self.content_stream().read()
+
+
+setattr(ArcWarcRecord, 'payload', record_payload)
+
 """ Monkeypatch warcio.ArcWarcRecord.as_dict() """
 
 
 @cache
-def record_as_dict(self: ArcWarcRecord, with_http_headers=False, with_payload=False):
+def record_as_dict(self: ArcWarcRecord):
     """Method to easily represent a record as a dict, to be fed into db_utils.Database.insert()"""
 
-    ret = dict()
-
-    # Add warc fields as items
-    ret.update(dict(self.rec_headers.headers))
-
-    if with_http_headers:
-        if self.http_headers:
-            # http_headers as an array of {'h': ..., 'v': ...} objects
-            ret['http_headers'] = self.http_headers.to_json()
-        else:
-            ret['http_headers'] = None
-    if with_payload:
-        ret['payload'] = self.content_stream().read()
-
-    return ret
+    return dict(self.rec_headers.headers)
 
 
 setattr(ArcWarcRecord, 'as_dict', record_as_dict)
@@ -63,11 +59,11 @@ setattr(ArcWarcRecord, 'as_dict', record_as_dict)
 """ Monkeypatch warcio.ArcWarcRecord.to_json() """
 
 
-def record_to_json(self):
-    return dumps(self.as_dict())
-
-
-setattr(ArcWarcRecord, 'to_json', record_to_json)
+# def record_to_json(self):
+#     return dumps(self.as_dict())
+#
+#
+# setattr(ArcWarcRecord, 'to_json', record_to_json)
 
 
 class WarcDB(MutableMapping):
@@ -153,17 +149,28 @@ class WarcDB(MutableMapping):
             'WARC-Date': datetime.datetime,
 
         }
+        record_dict = r.as_dict()
+
+        # Certain rec_types have payload
+        has_payload = r.rec_type in ['warcinfo', 'request', 'response', 'metadata', 'resource']
+        if has_payload:
+            record_dict['payload'] = r.payload()
+
+        # Certain rec_types have http_headers
+        has_http_headers = r.rec_type in ['request', 'response']
+        if has_http_headers:
+            record_dict['http_headers'] = r.http_headers.to_json()
 
         """Depending on the record type we insert to appropriate record"""
         if r.rec_type == 'warcinfo':
 
-            self.db.table('warcinfo').insert(r.as_dict(with_payload=True),
+            self.db.table('warcinfo').insert(record_dict,
                                              pk='WARC-Record-ID',
                                              alter=True,
                                              ignore=True,
                                              columns=col_type_conversions)
         elif r.rec_type == 'request':
-            self.db.table('request').insert(r.as_dict(with_payload=True, with_http_headers=True),
+            self.db.table('request').insert(record_dict,
                                             pk='WARC-Record-ID',
                                             foreign_keys=[
                                                 ("WARC-Warcinfo-ID", "warcinfo", "WARC-Record-ID")
@@ -174,7 +181,7 @@ class WarcDB(MutableMapping):
                                             )
 
         elif r.rec_type == 'response':
-            self.db.table('response').insert(r.as_dict(with_payload=True, with_http_headers=True),
+            self.db.table('response').insert(record_dict,
                                              pk='WARC-Record-ID',
                                              foreign_keys=[
                                                  ("WARC-Warcinfo-ID", "warcinfo", "WARC-Record-ID"),
@@ -186,7 +193,7 @@ class WarcDB(MutableMapping):
                                              )
 
         elif r.rec_type == 'metadata':
-            self.db.table('metadata').insert(r.as_dict(with_payload=True),
+            self.db.table('metadata').insert(record_dict,
                                              pk='WARC-Record-ID',
                                              foreign_keys=[
                                                  ("WARC-Warcinfo-ID", "warcinfo", "WARC-Record-ID"),
@@ -198,7 +205,7 @@ class WarcDB(MutableMapping):
                                              )
 
         elif r.rec_type == 'resource':
-            self.db.table('resource').insert(r.as_dict(with_payload=True),
+            self.db.table('resource').insert(record_dict,
                                              pk='WARC-Record-ID',
                                              foreign_keys=[
                                                  ("WARC-Warcinfo-ID", "warcinfo", "WARC-Record-ID"),
@@ -213,8 +220,6 @@ class WarcDB(MutableMapping):
             raise ValueError(f"Record type <{r.rec_type}> is not supported"
                              f"Only [warcinfo, request, response, metadata, resource] are.")
         return self
-
-
 
 
 from sqlite_utils import cli as sqlite_utils_cli
@@ -250,5 +255,3 @@ def import_(db_path, warc_path, batch_size):
 
     for r in to_import():
         db += r
-
-
