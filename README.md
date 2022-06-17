@@ -30,6 +30,13 @@ has been decorated with additional `.warc`-specific commands and flags.
 It is recommended to use the `warcdb` version as this will maintain integrity of the `.warcdb` between internal schema
 changes.
 
+## Schema
+
+Here's the relational schema of the `.warcdb` file.
+
+![WarcDB Schema](schema.png)
+
+
 ### Multiple `.warc[gz]` files into a `.warcdb`
 
 ```shell
