@@ -30,6 +30,10 @@ has been decorated with additional `.warc`-specific commands and flags.
 It is recommended to use the `warcdb` version as this will maintain integrity of the `.warcdb` between internal schema
 changes.
 
+## How It Works
+
+Individual `.warc` files are read and parsed and their data is inserted into an SQLite database with the relational schema seen below.
+
 ## Schema
 
 Here's the relational schema of the `.warcdb` file.
