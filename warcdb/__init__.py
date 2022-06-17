@@ -1,4 +1,6 @@
+import datetime
 import sys
+import warnings
 
 import click
 import sqlite_utils
@@ -13,7 +15,7 @@ from collections.abc import MutableMapping
 from warcio.recordloader import ArcWarcRecord, ArcWarcRecordLoader
 from warcio.recordbuilder import RecordBuilder
 from typing import Iterable
-
+from functools import cache
 from itertools import chain
 
 
@@ -23,26 +25,42 @@ def dict_union(*args):
     return dict(chain.from_iterable(d.iteritems() for d in args))
 
 
-""" Monkeypatch warcio.ArcWarcRecord class """
+""" Monkeypatch warcio.StatusAndHeaders.to_json() """
 
 
-def record_as_dict(self: ArcWarcRecord):
+def headers_to_json(self):
+    return dumps([{'header': h, 'value': v} for h, v in self.headers])
+
+
+setattr(StatusAndHeaders, 'to_json', headers_to_json)
+
+""" Monkeypatch warcio.ArcWarcRecord.as_dict() """
+
+
+@cache
+def record_as_dict(self: ArcWarcRecord, with_http_headers=False, with_payload=False):
+    """Method to easily represent a record as a dict, to be fed into db_utils.Database.insert()"""
+
     ret = dict()
 
     # Add warc fields as items
     ret.update(dict(self.rec_headers.headers))
 
-    if self.http_headers:
-        ret['http_headers'] = dumps(self.http_headers.headers)
-    else:
-        ret['http_headers'] = None
-
-    ret['payload'] = self.raw_stream.read()
+    if with_http_headers:
+        if self.http_headers:
+            # http_headers as an array of {'h': ..., 'v': ...} objects
+            ret['http_headers'] = self.http_headers.to_json()
+        else:
+            ret['http_headers'] = None
+    if with_payload:
+        ret['payload'] = self.content_stream().read()
 
     return ret
 
 
 setattr(ArcWarcRecord, 'as_dict', record_as_dict)
+
+""" Monkeypatch warcio.ArcWarcRecord.to_json() """
 
 
 def record_to_json(self):
@@ -55,6 +73,9 @@ setattr(ArcWarcRecord, 'to_json', record_to_json)
 class WarcDB(MutableMapping):
     """
     Wraper around sqlite_utils.Database
+
+    WarcDB acts as a Mapping (id: str -> r: ArcWarcRecord).
+
 
     The schema defined is table storing warcio.ArcWarcRecord objects
 
@@ -84,11 +105,15 @@ class WarcDB(MutableMapping):
         """Returns the db table the records are stored"""
         return self.table(self._records_table)
 
-    """MutableMapping abstract methods
-    
-    WarcDB acts as a Mapping (id: str -> r: ArcWarcRecord).
-    
-    """
+    @property
+    def http_headers(self):
+        return self.table('http_headers')
+
+    @property
+    def payloads(self):
+        return self.table('payloads')
+
+    """MutableMapping abstract methods"""
 
     def __setitem__(self, key, value: ArcWarcRecord):
         """ This is the only client-facing way to mutate the file.
@@ -112,14 +137,84 @@ class WarcDB(MutableMapping):
 
     """ API Methods """
 
-    def __iadd__(self, recs_to_add: Iterable[ArcWarcRecord]):
-        self.records.insert_all(
-            (r.as_dict() for r in recs_to_add),
-            pk='WARC-Record-ID',
-            batch_size=self._batch_size,
-            alter=True,
-            ignore=True
-        )
+    def __iadd__(self, r: ArcWarcRecord):
+        """
+        TODO
+        ====
+
+        * For all rec_types: also store WARC/1.0 field (warc and version?)
+        * Todo pass conversions: {'Content-Length': int, WARC-Date: datet
+        * All 'response', 'resource', 'request', 'revisit', 'conversion' and 'continuation' records may have a payload.
+        All 'warcinfo' and 'metadata' records shall not have a payload.
+        """
+        col_type_conversions = {
+            'Content-Length': int,
+            'payload': str,
+            'WARC-Date': datetime.datetime,
+
+        }
+
+        """Depending on the record type we insert to appropriate record"""
+        if r.rec_type == 'warcinfo':
+
+            self.db.table('warcinfo').insert(r.as_dict(with_payload=True),
+                                             pk='WARC-Record-ID',
+                                             alter=True,
+                                             ignore=True,
+                                             columns=col_type_conversions)
+        elif r.rec_type == 'request':
+            self.db.table('request').insert(r.as_dict(with_payload=True, with_http_headers=True),
+                                            pk='WARC-Record-ID',
+                                            foreign_keys=[
+                                                ("WARC-Warcinfo-ID", "warcinfo", "WARC-Record-ID")
+                                            ],
+                                            alter=True,
+                                            ignore=True,
+                                            columns=col_type_conversions
+                                            )
+
+        elif r.rec_type == 'response':
+            self.db.table('response').insert(r.as_dict(with_payload=True, with_http_headers=True),
+                                             pk='WARC-Record-ID',
+                                             foreign_keys=[
+                                                 ("WARC-Warcinfo-ID", "warcinfo", "WARC-Record-ID"),
+                                                 ("WARC-Concurrent-To", "request", "WARC-Record-ID")
+                                             ],
+                                             alter=True,
+                                             ignore=True,
+                                             columns=col_type_conversions
+                                             )
+
+        elif r.rec_type == 'metadata':
+            self.db.table('metadata').insert(r.as_dict(with_payload=True),
+                                             pk='WARC-Record-ID',
+                                             foreign_keys=[
+                                                 ("WARC-Warcinfo-ID", "warcinfo", "WARC-Record-ID"),
+                                                 ("WARC-Concurrent-To", "response", "WARC-Record-ID")
+                                             ],
+                                             alter=True,
+                                             ignore=True,
+                                             columns=col_type_conversions
+                                             )
+
+        elif r.rec_type == 'resource':
+            self.db.table('resource').insert(r.as_dict(with_payload=True),
+                                             pk='WARC-Record-ID',
+                                             foreign_keys=[
+                                                 ("WARC-Warcinfo-ID", "warcinfo", "WARC-Record-ID"),
+                                                 ("WARC-Concurrent-To", "metadata", "WARC-Record-ID")
+                                             ],
+                                             alter=True,
+                                             ignore=True,
+                                             columns=col_type_conversions
+                                             )
+
+        else:
+            raise ValueError(f"Record type <{r.rec_type}> is not supported"
+                             f"Only [warcinfo, request, response, metadata, resource] are.")
+        return self
+
+
 
 
 from sqlite_utils import cli as sqlite_utils_cli
@@ -140,14 +235,20 @@ warcdb_cli.help = \
                 )
 @click.option('--batch-size',
               type=click.INT, default=1000,
-              help="Batch size for chunked INSERTs", )
+              help="Batch size for chunked INSERTs [Note: ignored for now]", )
 def import_(db_path, warc_path, batch_size):
     db = WarcDB(db_path, batch_size=batch_size)
+    if batch_size:
+        warnings.warn("--batch-size has been temporarily disabled")
 
     def to_import():
         for f in always_iterable(warc_path):
             with open(f, 'rb') as stream:
                 for record in ArchiveIterator(stream):
+                    print(record)
                     yield record
 
-    db += to_import()
+    for r in to_import():
+        db += r
+
+
