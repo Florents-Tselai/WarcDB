@@ -80,10 +80,14 @@ class WarcDB(MutableMapping):
         self.payload_length = kwargs.get('payload_length', -1)
     """
 
+    # If False, http_headers and payload will be stored as columns in each record type table
+    # If True, http_headers and payload will be stored in separate tables and foreign keys will be used.
+    # Haven't made a decision yet, hence keeping this as a flag.
+    normalized_payload_http_headers = True
+
     def __init__(self, *args, **kwargs):
         # First pop warcdb - specific params
         self._batch_size = kwargs.pop('batch_size', 1000)
-        self._records_table = kwargs.get('records_table', 'records')
 
         # Pass the rest to sqlite_utils
         self._db = sqlite_utils.Database(*args, **kwargs)
@@ -95,11 +99,6 @@ class WarcDB(MutableMapping):
     def table(self, table_name, **kwargs):
         """Convenience method to fetch table by name"""
         return self.db.table(table_name, **kwargs)
-
-    @property
-    def records(self):
-        """Returns the db table the records are stored"""
-        return self.table(self._records_table)
 
     @property
     def http_headers(self):
@@ -153,72 +152,106 @@ class WarcDB(MutableMapping):
 
         # Certain rec_types have payload
         has_payload = r.rec_type in ['warcinfo', 'request', 'response', 'metadata', 'resource']
-        if has_payload:
-            record_dict['payload'] = r.payload()
-
         # Certain rec_types have http_headers
         has_http_headers = r.rec_type in ['request', 'response']
-        if has_http_headers:
-            record_dict['http_headers'] = r.http_headers.to_json()
 
-        """Depending on the record type we insert to appropriate record"""
-        if r.rec_type == 'warcinfo':
+        if not self.normalized_payload_http_headers:
+            # Add the fields
+            if has_payload:
+                record_dict['payload'] = r.payload()
 
-            self.db.table('warcinfo').insert(record_dict,
-                                             pk='WARC-Record-ID',
-                                             alter=True,
-                                             ignore=True,
-                                             columns=col_type_conversions)
-        elif r.rec_type == 'request':
-            self.db.table('request').insert(record_dict,
-                                            pk='WARC-Record-ID',
-                                            foreign_keys=[
-                                                ("WARC-Warcinfo-ID", "warcinfo", "WARC-Record-ID")
-                                            ],
-                                            alter=True,
-                                            ignore=True,
-                                            columns=col_type_conversions
-                                            )
+            if has_http_headers:
+                record_dict['http_headers'] = r.http_headers.to_json()
+            """Depending on the record type we insert into the appropriate table"""
+            if r.rec_type == 'warcinfo':
 
-        elif r.rec_type == 'response':
-            self.db.table('response').insert(record_dict,
-                                             pk='WARC-Record-ID',
-                                             foreign_keys=[
-                                                 ("WARC-Warcinfo-ID", "warcinfo", "WARC-Record-ID"),
-                                                 ("WARC-Concurrent-To", "request", "WARC-Record-ID")
-                                             ],
-                                             alter=True,
-                                             ignore=True,
-                                             columns=col_type_conversions
-                                             )
+                self.db.table('warcinfo').insert(record_dict,
+                                                 pk='WARC-Record-ID',
+                                                 alter=True,
+                                                 ignore=True,
+                                                 columns=col_type_conversions)
+            elif r.rec_type == 'request':
+                self.db.table('request').insert(record_dict,
+                                                pk='WARC-Record-ID',
+                                                foreign_keys=[
+                                                    ("WARC-Warcinfo-ID", "warcinfo", "WARC-Record-ID")
+                                                ],
+                                                alter=True,
+                                                ignore=True,
+                                                columns=col_type_conversions
+                                                )
 
-        elif r.rec_type == 'metadata':
-            self.db.table('metadata').insert(record_dict,
-                                             pk='WARC-Record-ID',
-                                             foreign_keys=[
-                                                 ("WARC-Warcinfo-ID", "warcinfo", "WARC-Record-ID"),
-                                                 ("WARC-Concurrent-To", "response", "WARC-Record-ID")
-                                             ],
-                                             alter=True,
-                                             ignore=True,
-                                             columns=col_type_conversions
-                                             )
+            elif r.rec_type == 'response':
+                self.db.table('response').insert(record_dict,
+                                                 pk='WARC-Record-ID',
+                                                 foreign_keys=[
+                                                     ("WARC-Warcinfo-ID", "warcinfo", "WARC-Record-ID"),
+                                                     ("WARC-Concurrent-To", "request", "WARC-Record-ID")
+                                                 ],
+                                                 alter=True,
+                                                 ignore=True,
+                                                 columns=col_type_conversions
+                                                 )
 
-        elif r.rec_type == 'resource':
-            self.db.table('resource').insert(record_dict,
-                                             pk='WARC-Record-ID',
-                                             foreign_keys=[
-                                                 ("WARC-Warcinfo-ID", "warcinfo", "WARC-Record-ID"),
-                                                 ("WARC-Concurrent-To", "metadata", "WARC-Record-ID")
-                                             ],
-                                             alter=True,
-                                             ignore=True,
-                                             columns=col_type_conversions
-                                             )
+            elif r.rec_type == 'metadata':
+                self.db.table('metadata').insert(record_dict,
+                                                 pk='WARC-Record-ID',
+                                                 foreign_keys=[
+                                                     ("WARC-Warcinfo-ID", "warcinfo", "WARC-Record-ID"),
+                                                     ("WARC-Concurrent-To", "response", "WARC-Record-ID")
+                                                 ],
+                                                 alter=True,
+                                                 ignore=True,
+                                                 columns=col_type_conversions
+                                                 )
 
-        else:
-            raise ValueError(f"Record type <{r.rec_type}> is not supported"
-                             f"Only [warcinfo, request, response, metadata, resource] are.")
+            elif r.rec_type == 'resource':
+                self.db.table('resource').insert(record_dict,
+                                                 pk='WARC-Record-ID',
+                                                 foreign_keys=[
+                                                     ("WARC-Warcinfo-ID", "warcinfo", "WARC-Record-ID"),
+                                                     ("WARC-Concurrent-To", "metadata", "WARC-Record-ID")
+                                                 ],
+                                                 alter=True,
+                                                 ignore=True,
+                                                 columns=col_type_conversions
+                                                 )
+
+            else:
+                raise ValueError(f"Record type <{r.rec_type}> is not supported"
+                                 f"Only [warcinfo, request, response, metadata, resource] are.")
+
+        if self.normalized_payload_http_headers:
+            record_dict['rec_type'] = r.rec_type
+            self.table('records').insert(record_dict,
+                                         pk='WARC-Record-ID',
+                                         alter=True,
+                                         ignore=True,
+                                         columns=col_type_conversions)
+
+            if has_payload:
+
+                self.table('payloads').insert(
+                    {
+                        'content': r.payload(),
+                        'WARC-Record-ID': record_dict['WARC-Record-ID']
+                    }
+                    , foreign_keys=[
+                        ("WARC-Record-ID", "records", "WARC-Record-ID")
+                    ], alter=True, ignore=True, columns=col_type_conversions
+                )
+
+            if has_http_headers:
+                self.http_headers.insert(
+                    {
+                        'headers': r.http_headers.to_json(),
+                        'WARC-Record-ID': record_dict['WARC-Record-ID']
+                    }
+                    , foreign_keys=[
+                        ("WARC-Warcinfo-ID", "records", "WARC-Record-ID")
+                    ], alter=True, ignore=True, columns=col_type_conversions
+                )
+
         return self
 
 
