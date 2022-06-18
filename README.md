@@ -51,6 +51,14 @@ Here's the relational schema of the `.warcdb` file.
 
 ## Examples
 
+### Populate with `wget`
+
+```shell
+wget --warc-file tselai "https://tselai.com"
+
+warcdb import archive.warcdb tselai.warc.gz
+```
+
 ### Get all response headers
 
 ```shell
