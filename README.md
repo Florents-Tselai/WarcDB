@@ -51,6 +51,32 @@ Here's the relational schema of the `.warcdb` file.
 
 ## Examples
 
+### Get all response headers
+
+```shell
+sqlite3 archive.warcdb <<SQL
+select  json_extract(h.value, '$.header') as header, 
+        json_extract(h.value, '$.value') as value
+from response,
+     json_each(http_headers) h
+SQL
+```
+
+### Get Cookie Headers for requests and responses
+```shell
+sqlite3 archive.warcdb <<SQL
+select json_extract(h.value, '$.header') as header, json_extract(h.value, '$.value') as value
+from response,
+     json_each(http_headers) h
+where json_extract(h.value, '$.header') like '%Cookie%'
+union
+select json_extract(h.value, '$.header') as header, json_extract(h.value, '$.value') as value
+from request,
+     json_each(http_headers) h
+where json_extract(h.value, '$.header') like '%Cookie%'
+SQL
+```
+
 
 Resources on WARC
 ----------------
