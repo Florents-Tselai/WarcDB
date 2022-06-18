@@ -5,11 +5,16 @@ It is based on the standardized `.warc` file format.
 
 ## Usage
 
-`warcdb import archive.warcdb ./tests/google.warc ./tests/frontpages.warc.gz` 
+```shell
 
-`warcdb query archive.warcdb "select * from warcinfo"`
+# Load the `archive.warcdb` file with data.
+warcdb import archive.warcdb ./tests/google.warc ./tests/frontpages.warc.gz
 
-`warcdb query archive.warcdb "select * from warcinfo"`
+warcdb enable-fts ./archive.warcdb response payload
+
+# Saarch for records that mention "stocks" in their response body
+warcdb search ./archive.warcdb response "stocks" -c "WARC-Record-ID"
+```
 
 ## Motivation
 
