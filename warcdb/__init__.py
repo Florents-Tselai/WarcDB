@@ -1,7 +1,6 @@
 import datetime
 import sys
 import warnings
-
 import click
 import sqlite_utils
 from textwrap import dedent
@@ -17,6 +16,7 @@ from warcio.recordbuilder import RecordBuilder
 from typing import Iterable
 from functools import cache
 from itertools import chain
+import requests as req
 
 
 def dict_union(*args):
@@ -226,7 +226,7 @@ from sqlite_utils import cli as sqlite_utils_cli
 
 warcdb_cli = sqlite_utils_cli.cli
 warcdb_cli.help = \
-    "Commands for interacting with .warcdb databases\n\nBased on SQLite-Utils"
+    "Commands for interacting with .warcdb files\n\nBased on SQLite-Utils"
 
 
 @warcdb_cli.command('import')
@@ -235,7 +235,7 @@ warcdb_cli.help = \
     type=click.Path(file_okay=True, dir_okay=False, allow_dash=False),
 )
 @click.argument('warc_path',
-                type=click.Path(file_okay=True, dir_okay=False, allow_dash=False, exists=True),
+                type=click.STRING,
                 nargs=-1
                 )
 @click.option('--batch-size',
@@ -243,15 +243,19 @@ warcdb_cli.help = \
               help="Batch size for chunked INSERTs [Note: ignored for now]", )
 def import_(db_path, warc_path, batch_size):
     db = WarcDB(db_path, batch_size=batch_size)
-    if batch_size:
-        warnings.warn("--batch-size has been temporarily disabled")
+
+    # if batch_size:
+    #    warnings.warn("--batch-size has been temporarily disabled")
 
     def to_import():
         for f in always_iterable(warc_path):
-            with open(f, 'rb') as stream:
-                for record in ArchiveIterator(stream):
-                    print(record)
+            if f.startswith('http'):
+                for record in ArchiveIterator(req.get(f, stream=True).raw, arc2warc=True):
                     yield record
+            else:
+                with open(f, 'rb') as stream:
+                    for record in ArchiveIterator(stream):
+                        yield record
 
     for r in to_import():
         db += r
