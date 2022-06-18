@@ -1,6 +1,15 @@
 # WarcDB: Web crawl data as SQLite databases.
 
 `WarcDB` is a an `SQLite`-based file format that makes web crawl data easier to share and query.
+It is based on the standardized `.warc` file format.
+
+## Usage
+
+`warcdb import archive.warcdb ./tests/google.warc ./tests/frontpages.warc.gz` 
+
+`warcdb query archive.warcdb "select * from warcinfo"`
+
+`warcdb query archive.warcdb "select * from warcinfo"`
 
 ## Motivation
 
@@ -15,7 +24,7 @@ to archive and store web data.
 The full datasets of these services range in the few pebibytes(PiB),
 making them impractical to query using non-distributed systems.
 
-This project aims to make **subsets** of this data easier to access and query using SQL.
+This project aims to make **subsets** such data easier to access and query using SQL.
 
 ## Examples
 
@@ -40,11 +49,12 @@ Here's the relational schema of the `.warcdb` file.
 
 ![WarcDB Schema](schema.png)
 
+## Examples
 
-### Multiple `.warc[gz]` files into a `.warcdb`
+### Import existing `.warc[gz]` archives into a `.warcdb` file
 
 ```shell
-warcdb import ./example.warcdb ./tests/example.warc ./tests/example.warc.gz --batch-size 10000
+warcdb import archive.warcdb ./tests/google.warc
 ```
 
 ### Pipe `wget -x` to `.warcdb`
