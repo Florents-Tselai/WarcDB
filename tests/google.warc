@@ -1,0 +1,435 @@
+WARC/1.0
+WARC-Type: warcinfo
+Content-Type: application/warc-fields
+WARC-Date: 2022-06-18T17:36:17Z
+WARC-Record-ID: <urn:uuid:7ABED2CA-7CBD-48A0-92E5-0059EBFC111A>
+WARC-Filename: google.warc.warc
+WARC-Block-Digest: sha1:LE3JTBJBI2JB55NHYJKVHUZXS2VVQXZB
+Content-Length: 257
+
+software: Wget/1.21.3 (darwin21.3.0)
+format: WARC File Format 1.0
+conformsTo: http://bibnum.bnf.fr/WARC/WARC_ISO_28500_version1_latestdraft.pdf
+robots: classic
+wget-arguments: "--warc-file" "google.warc" "https://google.com" "--no-warc-compression" 
+
+
+
+WARC/1.0
+WARC-Type: request
+WARC-Target-URI: <https://google.com/>
+Content-Type: application/http;msgtype=request
+WARC-Date: 2022-06-18T17:36:18Z
+WARC-Record-ID: <urn:uuid:6E9096E2-5D54-4CD6-A157-1DE4A7040DEB>
+WARC-IP-Address: 142.250.187.142
+WARC-Warcinfo-ID: <urn:uuid:7ABED2CA-7CBD-48A0-92E5-0059EBFC111A>
+WARC-Block-Digest: sha1:6QD37LJCQAUCIGVLHWBTO4UCYNS4UNNO
+Content-Length: 125
+
+GET / HTTP/1.1
+Host: google.com
+User-Agent: Wget/1.21.3
+Accept: */*
+Accept-Encoding: identity
+Connection: Keep-Alive
+
+
+
+WARC/1.0
+WARC-Type: response
+WARC-Record-ID: <urn:uuid:2008CBED-030B-435B-A4DF-09A842DDB764>
+WARC-Warcinfo-ID: <urn:uuid:7ABED2CA-7CBD-48A0-92E5-0059EBFC111A>
+WARC-Concurrent-To: <urn:uuid:6E9096E2-5D54-4CD6-A157-1DE4A7040DEB>
+WARC-Target-URI: <https://google.com/>
+WARC-Date: 2022-06-18T17:36:18Z
+WARC-IP-Address: 142.250.187.142
+WARC-Block-Digest: sha1:BDI5FUGI5N7RDNELBXU3VJ7XI5IZBKNS
+WARC-Payload-Digest: sha1:WUUFJUPXTXS6X3V7AFQEI6QJY6UMFTPE
+Content-Type: application/http;msgtype=response
+Content-Length: 881
+
+HTTP/1.1 301 Moved Permanently
+Location: https://www.google.com/
+Content-Type: text/html; charset=UTF-8
+Date: Sat, 18 Jun 2022 17:36:18 GMT
+Expires: Sat, 18 Jun 2022 17:36:18 GMT
+Cache-Control: private, max-age=2592000
+Server: gws
+Content-Length: 220
+X-XSS-Protection: 0
+X-Frame-Options: SAMEORIGIN
+Set-Cookie: CONSENT=PENDING+975; expires=Mon, 17-Jun-2024 17:36:18 GMT; path=/; domain=.google.com; Secure
+P3P: CP="This is not a P3P policy! See g.co/p3phelp for more info."
+Alt-Svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000,h3-Q050=":443"; ma=2592000,h3-Q046=":443"; ma=2592000,h3-Q043=":443"; ma=2592000,quic=":443"; ma=2592000; v="46,43"
+
+<HTML><HEAD><meta http-equiv="content-type" content="text/html;charset=utf-8">
+<TITLE>301 Moved</TITLE></HEAD><BODY>
+<H1>301 Moved</H1>
+The document has moved
+<A HREF="https://www.google.com/">here</A>.
+</BODY></HTML>
+
+
+WARC/1.0
+WARC-Type: request
+WARC-Target-URI: <https://www.google.com/>
+Content-Type: application/http;msgtype=request
+WARC-Date: 2022-06-18T17:36:18Z
+WARC-Record-ID: <urn:uuid:524F62DD-D788-4085-B14D-22B0CDC0AC53>
+WARC-IP-Address: 172.217.20.68
+WARC-Warcinfo-ID: <urn:uuid:7ABED2CA-7CBD-48A0-92E5-0059EBFC111A>
+WARC-Block-Digest: sha1:TDTBDPCZVGKAAVS36S6ZATZQCS2SMYPL
+Content-Length: 158
+
+GET / HTTP/1.1
+Host: www.google.com
+User-Agent: Wget/1.21.3
+Accept: */*
+Accept-Encoding: identity
+Connection: Keep-Alive
+Cookie: CONSENT=PENDING+975
+
+
+
+WARC/1.0
+WARC-Type: response
+WARC-Record-ID: <urn:uuid:6A1443BF-0468-400D-8990-0B929DEC8CA0>
+WARC-Warcinfo-ID: <urn:uuid:7ABED2CA-7CBD-48A0-92E5-0059EBFC111A>
+WARC-Concurrent-To: <urn:uuid:524F62DD-D788-4085-B14D-22B0CDC0AC53>
+WARC-Target-URI: <https://www.google.com/>
+WARC-Date: 2022-06-18T17:36:18Z
+WARC-IP-Address: 172.217.20.68
+WARC-Block-Digest: sha1:F3KE4IPCCIODCSTLV4ASBPAV4V5DSBBF
+WARC-Payload-Digest: sha1:Z7VI6NJ5HY5T5X43SLR3KX7BFRSOFZEU
+Content-Type: application/http;msgtype=response
+Content-Length: 1366
+
+HTTP/1.1 302 Found
+Location: https://consent.google.com/ml?continue=https://www.google.com/&gl=GR&m=0&pc=shp&uxe=eomcs4e&hl=el&src=1
+Cache-Control: private
+Content-Type: text/html; charset=UTF-8
+P3P: CP="This is not a P3P policy! See g.co/p3phelp for more info."
+Date: Sat, 18 Jun 2022 17:36:18 GMT
+Server: gws
+Content-Length: 324
+X-XSS-Protection: 0
+X-Frame-Options: SAMEORIGIN
+Set-Cookie: AEC=AakniGN2LXYNvtskvUaFRazU7A4OSsrbGUxW9jfg_h7umtDr8vFSUWzUFA; expires=Thu, 15-Dec-2022 17:36:18 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax
+Set-Cookie: __Secure-ENID=5.SE=lBM1gn4kCsJJYZBWCv6D2XUTZyNVOT2ajQIxT-_-YNkNC49-MBDQdlC9W3P-2FTCYvPVEs3s6melWLKKKDkrDRXMnpP-J5ZZyddN1eEeW-VmkPWgFvo1nhEts_WubiwVEVRzLnw7RXXDf9SJkcTtAwaqSSzLgXwp-DmQta5Y0iw; expires=Wed, 19-Jul-2023 09:54:36 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax
+Alt-Svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000,h3-Q050=":443"; ma=2592000,h3-Q046=":443"; ma=2592000,h3-Q043=":443"; ma=2592000,quic=":443"; ma=2592000; v="46,43"
+
+<HTML><HEAD><meta http-equiv="content-type" content="text/html;charset=utf-8">
+<TITLE>302 Moved</TITLE></HEAD><BODY>
+<H1>302 Moved</H1>
+The document has moved
+<A HREF="https://consent.google.com/ml?continue=https://www.google.com/&amp;gl=GR&amp;m=0&amp;pc=shp&amp;uxe=eomcs4e&amp;hl=el&amp;src=1">here</A>.
+</BODY></HTML>
+
+
+WARC/1.0
+WARC-Type: request
+WARC-Target-URI: <https://consent.google.com/ml?continue=https://www.google.com/&gl=GR&m=0&pc=shp&uxe=eomcs4e&hl=el&src=1>
+Content-Type: application/http;msgtype=request
+WARC-Date: 2022-06-18T17:36:19Z
+WARC-Record-ID: <urn:uuid:09DDF7C0-F623-4FDF-8061-9228112BF868>
+WARC-IP-Address: 142.250.187.142
+WARC-Warcinfo-ID: <urn:uuid:7ABED2CA-7CBD-48A0-92E5-0059EBFC111A>
+WARC-Block-Digest: sha1:FSOV5Q3EF45TCKYZKV3U5HKGZHXQ6QGU
+Content-Length: 494
+
+GET /ml?continue=https://www.google.com/&gl=GR&m=0&pc=shp&uxe=eomcs4e&hl=el&src=1 HTTP/1.1
+Host: consent.google.com
+User-Agent: Wget/1.21.3
+Accept: */*
+Accept-Encoding: identity
+Connection: Keep-Alive
+Cookie: AEC=AakniGN2LXYNvtskvUaFRazU7A4OSsrbGUxW9jfg_h7umtDr8vFSUWzUFA; CONSENT=PENDING+975; __Secure-ENID=5.SE=lBM1gn4kCsJJYZBWCv6D2XUTZyNVOT2ajQIxT-_-YNkNC49-MBDQdlC9W3P-2FTCYvPVEs3s6melWLKKKDkrDRXMnpP-J5ZZyddN1eEeW-VmkPWgFvo1nhEts_WubiwVEVRzLnw7RXXDf9SJkcTtAwaqSSzLgXwp-DmQta5Y0iw
+
+
+
+WARC/1.0
+WARC-Type: response
+WARC-Record-ID: <urn:uuid:38FCCE48-2B8A-4F7D-BB46-0416793AA995>
+WARC-Warcinfo-ID: <urn:uuid:7ABED2CA-7CBD-48A0-92E5-0059EBFC111A>
+WARC-Concurrent-To: <urn:uuid:09DDF7C0-F623-4FDF-8061-9228112BF868>
+WARC-Target-URI: <https://consent.google.com/ml?continue=https://www.google.com/&gl=GR&m=0&pc=shp&uxe=eomcs4e&hl=el&src=1>
+WARC-Date: 2022-06-18T17:36:19Z
+WARC-IP-Address: 142.250.187.142
+WARC-Block-Digest: sha1:3TA46FB2BAPBGWFP7GXSF5O54NYP5TBZ
+WARC-Payload-Digest: sha1:J6CP2JM67GL3R5CFX2YB7DV3Q2K67U5E
+Content-Type: application/http;msgtype=response
+Content-Length: 13825
+
+HTTP/1.1 200 OK
+Content-Type: text/html; charset=utf-8
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: Mon, 01 Jan 1990 00:00:00 GMT
+Date: Sat, 18 Jun 2022 17:36:19 GMT
+Cross-Origin-Resource-Policy: same-site
+Accept-CH: Sec-CH-UA-Arch, Sec-CH-UA-Bitness, Sec-CH-UA-Full-Version, Sec-CH-UA-Full-Version-List, Sec-CH-UA-Model, Sec-CH-UA-Platform, Sec-CH-UA-Platform-Version
+Content-Security-Policy: require-trusted-types-for 'script';report-uri /_/ConsentHttp/cspreport
+Content-Security-Policy: script-src 'nonce-Zmfu_SkIxG5aQqcfe4I6Tg' 'unsafe-inline';object-src 'none';base-uri 'self';report-uri /_/ConsentHttp/cspreport;worker-src 'self'
+Permissions-Policy: ch-ua-arch=*, ch-ua-bitness=*, ch-ua-full-version=*, ch-ua-full-version-list=*, ch-ua-model=*, ch-ua-platform=*, ch-ua-platform-version=*
+Cross-Origin-Opener-Policy: unsafe-none
+Server: ESF
+X-XSS-Protection: 0
+X-Frame-Options: SAMEORIGIN
+X-Content-Type-Options: nosniff
+Alt-Svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000,h3-Q050=":443"; ma=2592000,h3-Q046=":443"; ma=2592000,h3-Q043=":443"; ma=2592000,quic=":443"; ma=2592000; v="46,43"
+Accept-Ranges: none
+Vary: Sec-Fetch-Dest, Sec-Fetch-Mode, Sec-Fetch-Site,Accept-Encoding
+Transfer-Encoding: chunked
+
+211a
+<!DOCTYPE html><html lang="el" dir="ltr"><head><style nonce="FqZJXAyijGxV4LJMSS23GQ">
+a, a:link, a:visited, a:active, a:hover {
+  color: #1a73e8;
+  text-decoration: none;
+}
+body {
+  font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+  text-align: center;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+.box {
+  border: 1px solid #dadce0;
+  box-sizing: border-box;
+  border-radius: 8px;
+  margin: 24px auto 5px auto;
+  max-width: 520px;
+  padding: 24px;
+}
+h1 {
+  color: #2c2c2c;
+  font-size: 24px;
+  hyphens: auto;
+  margin: 24px 0;
+}
+p, .sub, .contentText {
+  color: #5f6368;;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.2px;
+  text-align: left;
+}
+.signin {
+  text-align: right;
+}
+.image {
+  display: block;
+  margin: 14px auto;
+}
+.basebutton {
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  height: 36px;
+  margin: 12px 4px 0;
+  padding: 10px 24px;
+}
+a.button {
+  color: #fff;
+}
+button, .button {
+  background-color: #1a73e8;
+  border: none;
+  color: #fff;
+}
+input.button {
+  -webkit-appearance: none;
+}
+.error {
+  border: 2px solid #d93025;
+  border-radius: 5px;
+  color: #d93025;
+  margin: auto;
+  padding: 5px;
+}
+.footer {
+  margin-top: 16px;
+}
+.footer a {
+  margin-left: 24px;
+  white-space: nowrap;
+}
+.footer a, .footer select, .footer input {
+  color: #757575;
+  font-size: 12px;
+}
+.languagepicker {
+  display: inline-flex;
+  margin: 2px 0;
+}
+#languageform,
+#languageselect {
+  margin: 0 2px;
+}
+#languageselect {
+  color: #757575;
+}
+.detailspage {
+  margin: 24px auto 0 auto;
+  max-width: 700px;
+}
+.detailspage h1, .detailspage h2 {
+  font-size: 22px
+}
+.setting {
+  border: 1px solid #dadce0;
+  box-sizing: border-box;
+  border-radius: 8px;
+  margin-bottom: 11px;
+  padding: 24px 24px 20px 24px;
+  text-align: right;
+}
+.sub {
+  padding: 24px 24px 20px 24px;
+}
+hr {
+  margin: 12px -24px 12px;
+  border: 0;
+  border-top: 1px solid #dadce0;
+}
+fieldset {
+  border: none;
+  padding: 0;
+}
+label {
+  margin: 24px;
+}
+td {
+  vertical-align: top;
+}
+.setting h2, .setting h3, h4 {
+  color: #3c4043;
+  margin: 0;
+  text-align: left;
+}
+.yt-text {
+  color: #5f6368;
+  font-size: 14px;
+  font-weight: 300;
+}
+.productLogoContainer {
+  margin: auto;
+  max-width: 360px;
+}
+
+/** Narrow screen (for example a mobile device). */
+@media only screen and (max-width: 480px) {
+  body {
+    margin: 18px 14px;
+  }
+  .imgContainer {
+    min-width: 96px;
+  }
+  .hideOnSmallWidth {
+    display: none;
+  }
+  .footer form {
+    margin-bottom: 3px;
+  }
+}
+
+@media only screen and (max-width: 380px) {
+  .imgContainer {
+    min-width: 72px;
+  }
+}
+
+/** Normal/non-narrow screen. */
+@media not screen and (max-width: 480px) {
+  body {
+    margin: 18px 25px;
+  }
+  .imgContainer {
+    width: 51%;
+  }
+  .hideOnNormalWidth {
+    display: none;
+  }
+  .footer form {
+    display: inline;
+  }
+}
+</style><title>Πριν συνεχίσετε στην Αναζήτηση Google</title><meta name="viewport" content="initial-scale=1, maximum-scale=5, width=device-width"><link rel="shortcut icon" href="//www.google.com/favicon.ico"></head><body><div class="signin"><a href="https://accounts.google.com/ServiceLogin?hl=el&amp;continue=https://www.google.com/&amp;gae=cb-eomcs4e" class="basebutton button">Σύνδεση</a></div><div class="box"><img src="//www.gstatic.com/images/branding/googlelogo/1x/googlelogo_color_68x28dp.png" srcset="//www.gstatic.com/images/branding/googlelogo/2x/googlelogo_color_68x28dp.png 2x" width="68" height="28" alt="Google"><div class="productLogoContainer"><img src="https://www.gstatic.com/ac/cb/scene_cookie_wall_search_v2.svg" alt="" width="100%" height="100%" class="image" aria-hidden="true"></div><h1>Πριν συνεχίσετε στην Αναζήτηση Google</h1><div class="contentText">Η Google χρησιμοποιεί <a href="https://policies.google.com/technologies/cookies?hl=el&utm_source=ucb" target="_blank">cookie</a> και δεδομένα για:<ul><li>Την παροχή και τη διατήρηση υπηρεσιών, όπως την παρακολούθηση διακοπών λειτουργίας και την προστασία από ανεπιθύμητο περιεχόμενο, απάτη και κατάχρηση</li><li>Τη μέτρηση της αφοσίωσης του κοινού και την ανάλυση των στατιστικών στοιχείων ιστοτόπων για την κατανόηση του τρόπου με τον οποίο χρησιμοποιούνται οι υπηρεσίες μας</li></ul>Εάν συμφωνείτε, θα χρησιμοποιούμε επίσης cookie και δεδομένα για:<ul><li>Τη βελτίωση της ποιότητας των υπηρεσιών μας και την ανάπτυξη νέων</li><li>Την προβολή διαφημίσεων και τη μέτρηση της αποτελεσματικότητάς τους</li><li>Την εμφάνιση εξατομικευμένου περιεχομένου, ανάλογα με τις ρυθμίσεις σας</li><li>Την προβολή εξατομικευμένων ή γενικών διαφημίσεων, ανάλογα με τις ρυθμίσεις σας, στο Google και στον ιστό</li></ul>Για μη εξατομικευμένο περιεχόμενο και διαφημίσεις, αυτό που βλέπετε μπορεί να επηρεάζεται από παράγοντες όπως το περιεχόμενο που προβάλετε τη συγκεκριμένη στιγμή και η τοποθεσία σας (η προβολή διαφημίσεων βασίζεται μόνο στη γενική τοποθεσία σας). Το εξατομικευμένο περιεχόμενο και οι διαφημίσεις ενδέχεται να βασίζονται σε αυτούς τους παράγοντες και στη δραστηριότητά σας, όπως τις αναζητήσεις σας στο Google και τα βίντεο που παρακολουθείτε στο YouTube. Στο εξατομικευμένο περιεχόμενο και τις διαφημίσεις περιλαμβάνονται διάφορα στοιχεία, όπως πιο συναφή αποτελέσματα και προτάσεις, προσαρμογή της αρχικής σελίδας YouTube και διαφημίσεις προσαρμοσμένες στα ενδιαφέροντά σας.<p>Κάντε κλικ στην Προσαρμογή για να δείτε επιλογές, όπως στοιχεία ελέγχου με τα οποία μπορείτε να απορρίψετε τη χρήση των cookie για εξατομίκευση, καθώς και πληροφορίες σχετικά με στοιχεία ελέγχου σε επίπεδο προγράμματος περιήγησης για να απορρίψετε ορισμένα ή όλα τα cookie για άλλες χρήσεις.  Επίσης, μπορείτε να επισκεφτείτε τη διεύθυνση g.co/privacytools ανά πάσα στιγμή.</p></div><div><a href="https://consent.google.com/dl?continue=https://www.google.com/&amp;gl=GR&amp;hl=el&amp;pc=shp&amp;uxe=eomcs4e&amp;src=1" class="basebutton button">Προσαρμογή</a><form action="https://consent.google.com/s" method="POST" style="display:inline;"><input type="hidden" name="gl" value="GR"><input type="hidden" name="m" value="0"><input type="hidden" name="pc" value="shp"><input type="hidden" name="continue" value="https://www.google.com/"><input type="hidden" name="ca" value="r"><input type="hidden" name="x" value="8"><input type="hidden" name="v" value="cb.20220610-02-p0.el+FX+975"><input type="hidden" name="t" value="ADw3F8i56a3Y7yMrBLnuCqpWZ0hFAddTdQ:1655573779697"><input type="hidden" name="hl" value="el"><input type="hidden" name="src" value="1"><input type="hidden" name="uxe" value="eomcs4e"><input type="submit" value="Συμφωνώ" class="basebutton button" aria-label="Συμφωνείτε με τη χρήση cookie και άλλων δεδομένων για τους σκοπούς που περιγράφονται."/></form></div></div><div class="footer"><form action="https://consent.google.com/ml" method="get"><select id="languageselect" name="hl">
+fd4
+<option value="af">Afrikaans</option><option value="az">azərbaycan</option><option value="bs">bosanski</option><option value="ca">català</option><option value="cs">Čeština</option><option value="cy">Cymraeg</option><option value="da">Dansk</option><option value="de">Deutsch</option><option value="et">eesti</option><option value="en-GB">English&nbsp;(United Kingdom)</option><option value="en">English&nbsp;(United States)</option><option value="es">Español&nbsp;(España)</option><option value="es-419">Español&nbsp;(Latinoamérica)</option><option value="eu">euskara</option><option value="fil">Filipino</option><option value="fr-CA">Français&nbsp;(Canada)</option><option value="fr">Français&nbsp;(France)</option><option value="ga">Gaeilge</option><option value="gl">galego</option><option value="hr">Hrvatski</option><option value="id">Indonesia</option><option value="zu">isiZulu</option><option value="is">íslenska</option><option value="it">Italiano</option><option value="sw">Kiswahili</option><option value="lv">latviešu</option><option value="lt">lietuvių</option><option value="hu">magyar</option><option value="ms">Melayu</option><option value="nl">Nederlands</option><option value="no">norsk</option><option value="uz">o‘zbek</option><option value="pl">polski</option><option value="pt-BR">Português&nbsp;(Brasil)</option><option value="pt-PT">Português&nbsp;(Portugal)</option><option value="ro">română</option><option value="sq">shqip</option><option value="sk">Slovenčina</option><option value="sl">slovenščina</option><option value="sr-Latn">srpski (latinica)</option><option value="fi">Suomi</option><option value="sv">Svenska</option><option value="vi">Tiếng Việt</option><option value="tr">Türkçe</option><option value="el" selected>Ελληνικά</option><option value="be">беларуская</option><option value="bg">български</option><option value="ky">кыргызча</option><option value="kk">қазақ тілі</option><option value="mk">македонски</option><option value="mn">монгол</option><option value="ru">Русский</option><option value="sr">српски</option><option value="uk">Українська</option><option value="ka">ქართული</option><option value="hy">հայերեն</option><option value="iw">עברית</option><option value="ur">اردو</option><option value="ar">العربية</option><option value="fa">فارسی</option><option value="am">አማርኛ</option><option value="ne">नेपाली</option><option value="mr">मराठी</option><option value="hi">हिन्दी</option><option value="as">অসমীয়া</option><option value="bn">বাংলা</option><option value="pa">ਪੰਜਾਬੀ</option><option value="gu">ગુજરાતી</option><option value="or">ଓଡ଼ିଆ</option><option value="ta">தமிழ்</option><option value="te">తెలుగు</option><option value="kn">ಕನ್ನಡ</option><option value="ml">മലയാളം</option><option value="si">සිංහල</option><option value="th">ไทย</option><option value="lo">ລາວ</option><option value="my">မြန်မာ</option><option value="km">ខ្មែរ</option><option value="ko">한국어</option><option value="ja">日本語</option><option value="zh-CN">简体中文</option><option value="zh-TW">繁體中文</option><option value="zh-HK">繁體中文&nbsp;(香港)</option></select><input type="hidden" name="oldhl" value="el"><input type="hidden" name="gl" value="GR"><input type="hidden" name="m" value="0"><input type="hidden" name="pc" value="shp"><input type="hidden" name="continue" value="https://www.google.com/"><input type="hidden" name="src" value="1"><input type="submit" value="Αλλαγή γλώσσας"></form><a href="https://policies.google.com/privacy?hl=el&utm_source=ucb">Πολιτική απορρήτου</a> <a href="https://policies.google.com/terms?hl=el&utm_source=ucb">Όροι Παροχής Υπηρεσιών</a></div></body></html>
+0
+
+
+
+WARC/1.0
+WARC-Type: metadata
+WARC-Record-ID: <urn:uuid:0B328131-102E-4A70-8796-27F020CF7432>
+WARC-Warcinfo-ID: <urn:uuid:7ABED2CA-7CBD-48A0-92E5-0059EBFC111A>
+WARC-Target-URI: <metadata://gnu.org/software/wget/warc/MANIFEST.txt>
+WARC-Date: 2022-06-18T17:36:19Z
+WARC-Block-Digest: sha1:3BEL2GZLALJKCBILAG7NY4T7GBWHCSHE
+Content-Type: text/plain
+Content-Length: 48
+
+<urn:uuid:7ABED2CA-7CBD-48A0-92E5-0059EBFC111A>
+
+
+WARC/1.0
+WARC-Type: resource
+WARC-Record-ID: <urn:uuid:EE79F8D8-7119-42AC-80A6-1CDA216CB2A8>
+WARC-Warcinfo-ID: <urn:uuid:7ABED2CA-7CBD-48A0-92E5-0059EBFC111A>
+WARC-Concurrent-To: <urn:uuid:0B328131-102E-4A70-8796-27F020CF7432>
+WARC-Target-URI: <metadata://gnu.org/software/wget/warc/wget_arguments.txt>
+WARC-Date: 2022-06-18T17:36:19Z
+WARC-Block-Digest: sha1:MFBWQUHB26BXHAD2RDFLKQ53U3EOECOZ
+Content-Type: text/plain
+Content-Length: 74
+
+"--warc-file" "google.warc" "https://google.com" "--no-warc-compression" 
+
+
+WARC/1.0
+WARC-Type: resource
+WARC-Record-ID: <urn:uuid:DEACCB84-089E-4C37-ADE2-646B500AFD54>
+WARC-Warcinfo-ID: <urn:uuid:7ABED2CA-7CBD-48A0-92E5-0059EBFC111A>
+WARC-Concurrent-To: <urn:uuid:0B328131-102E-4A70-8796-27F020CF7432>
+WARC-Target-URI: <metadata://gnu.org/software/wget/warc/wget.log>
+WARC-Date: 2022-06-18T17:36:19Z
+WARC-Block-Digest: sha1:C5YKOUFCANRKDLAWTUWYGSST5OWJFTSB
+Content-Type: text/plain
+Content-Length: 1381
+
+Opening WARC file ‘google.warc.warc’.
+
+--2022-06-18 20:36:17--  https://google.com/
+Resolving google.com (google.com)... 142.250.187.142
+Connecting to google.com (google.com)|142.250.187.142|:443... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://www.google.com/ [following]
+
+     0K                                                       100% 69,9M=0s
+
+--2022-06-18 20:36:18--  https://www.google.com/
+Resolving www.google.com (www.google.com)... 172.217.20.68
+Connecting to www.google.com (www.google.com)|172.217.20.68|:443... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: https://consent.google.com/ml?continue=https://www.google.com/&gl=GR&m=0&pc=shp&uxe=eomcs4e&hl=el&src=1 [following]
+
+     0K                                                       100% 77,2M=0s
+
+--2022-06-18 20:36:19--  https://consent.google.com/ml?continue=https://www.google.com/&gl=GR&m=0&pc=shp&uxe=eomcs4e&hl=el&src=1
+Resolving consent.google.com (consent.google.com)... 142.250.187.142
+Connecting to consent.google.com (consent.google.com)|142.250.187.142|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+Saving to: ‘index.html.4’
+
+     0K .......... ..                                           859K=0,01s
+
+2022-06-18 20:36:19 (859 KB/s) - ‘index.html.4’ saved [12526]
+
+
+
