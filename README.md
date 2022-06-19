@@ -5,6 +5,10 @@
 ## Usage
 
 ```shell
+pip install warcdb
+```
+
+```shell
 
 # Load the `archive.warcdb` file with data.
 warcdb import archive.warcdb ./tests/google.warc ./tests/frontpages.warc.gz "https://tselai.com/data/google.warc"
