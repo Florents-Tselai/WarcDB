@@ -1,7 +1,6 @@
 # WarcDB: Web crawl data as SQLite databases.
 
 `WarcDB` is a an `SQLite`-based file format that makes web crawl data easier to share and query.
-It is based on the standardized `.warc` file format.
 
 ## Usage
 
@@ -15,6 +14,18 @@ warcdb enable-fts ./archive.warcdb response payload
 # Saarch for records that mention "stocks" in their response body
 warcdb search ./archive.warcdb response "stocks" -c "WARC-Record-ID"
 ```
+
+## How It Works
+
+Individual `.warc` files are read and parsed and their data is inserted into an SQLite database with the relational schema seen below.
+
+## Schema
+
+Here's the relational schema of the `.warcdb` file.
+
+
+![WarcDB Schema](schema.png)
+
 
 ## Motivation
 
@@ -38,16 +49,6 @@ excellent [SQLite-Utils](https://sqlite-utils.datasette.io/en/stable/) utility.
 existing `sqlite-utils` [CLI commands](https://sqlite-utils.datasette.io/en/stable/cli-reference.html)
 can be call as expected as `sqlite-utils <command> example.warcdb` or `warcdb <command> example.warcdb` but the latter
 has been decorated with additional `.warc`-specific commands and flags.
-
-## How It Works
-
-Individual `.warc` files are read and parsed and their data is inserted into an SQLite database with the relational schema seen below.
-
-## Schema
-
-Here's the relational schema of the `.warcdb` file.
-
-![WarcDB Schema](schema.png)
 
 ## Examples
 
