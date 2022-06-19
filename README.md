@@ -2,6 +2,9 @@
 
 `WarcDB` is a an `SQLite`-based file format that makes web crawl data easier to share and query.
 
+It is based on the standardized [Web ARChive format](https://en.wikipedia.org/wiki/Web_ARChive),
+used by web archivers.
+
 ## Usage
 
 ```shell
