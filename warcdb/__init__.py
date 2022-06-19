@@ -17,6 +17,7 @@ from typing import Iterable
 from functools import cache
 from itertools import chain
 import requests as req
+from tqdm import tqdm
 
 
 def dict_union(*args):
@@ -250,11 +251,12 @@ def import_(db_path, warc_path, batch_size):
     def to_import():
         for f in always_iterable(warc_path):
             if f.startswith('http'):
-                for record in ArchiveIterator(req.get(f, stream=True).raw, arc2warc=True):
+                for record in tqdm(ArchiveIterator(req.get(f, stream=True).raw, arc2warc=True),
+                                   desc=f):
                     yield record
             else:
                 with open(f, 'rb') as stream:
-                    for record in ArchiveIterator(stream):
+                    for record in tqdm(ArchiveIterator(stream), desc=f):
                         yield record
 
     for r in to_import():

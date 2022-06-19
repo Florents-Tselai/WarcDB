@@ -15,18 +15,15 @@ def get_long_description():
 
 setup(
     name="warcdb",
-    description="# WarcDB: Web crawl data as SQLite databases",
+    description="WarcDB: Web crawl data as SQLite databases",
     long_description=get_long_description(),
     long_description_content_type="text/markdown",
     author="Florents Tselai",
+    author_email="florents@tselai.com",
     version=VERSION,
     license="Apache License, Version 2.0",
     packages=find_packages(exclude=["tests", "tests.*"]),
-    install_requires=[
-        "sqlite-utils==3.26.1",
-        "warcio==1.7.4",
-        "click==8.1.3"
-    ],
+    install_requires=open('requirements.txt', 'r').readlines(),
     entry_points="""
         [console_scripts]
         warcdb=warcdb:warcdb_cli
