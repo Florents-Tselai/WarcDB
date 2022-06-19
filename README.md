@@ -14,6 +14,13 @@ warcdb enable-fts ./archive.warcdb response payload
 # Saarch for records that mention "stocks" in their response body
 warcdb search ./archive.warcdb response "stocks" -c "WARC-Record-ID"
 ```
+As you can see you can use any mix of local/remote and raw/compressed archives.
+
+For example to get a part of the [Common Crawl January 2022 Crawl Archive ](https://data.commoncrawl.org/crawl-data/CC-MAIN-2022-05/index.html) in a streaming fashion:
+
+```shell
+warcdb import archive.warcdb "https://data.commoncrawl.org/crawl-data/CC-MAIN-2022-05/segments/1642320306346.64/warc/CC-MAIN-20220128212503-20220129002503-00719.warc.gz
+```
 
 ## How It Works
 
