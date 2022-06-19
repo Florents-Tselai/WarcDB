@@ -52,10 +52,17 @@ This project aims to make **subsets** such data easier to access and query using
 Currently, this is implemented on top of SQLite and is a wrapper around the
 excellent [SQLite-Utils](https://sqlite-utils.datasette.io/en/stable/) utility.
 
-"`wrapper`" means that all
+`"wrapper"` means that all
 existing `sqlite-utils` [CLI commands](https://sqlite-utils.datasette.io/en/stable/cli-reference.html)
-can be call as expected as `sqlite-utils <command> example.warcdb` or `warcdb <command> example.warcdb` but the latter
-has been decorated with additional `.warc`-specific commands and flags.
+can be called as expected like
+
+```shell
+sqlite-utils <command> archive.warcdb`
+```
+or
+```shell
+warcdb <command> example.warcdb
+```
 
 ## Examples
 
