@@ -22,8 +22,15 @@ setup(
     author_email="florents@tselai.com",
     version=VERSION,
     license="Apache License, Version 2.0",
-    packages=find_packages(exclude=["tests", "tests.*"]),
-    install_requires=open('requirements.txt', 'r').readlines(),
+    packages=["warcdb"],
+    install_requires=[
+        "sqlite-utils==3.26.1",
+        "warcio==1.7.4",
+        "click==8.1.3",
+        "more-itertools",
+        "tqdm"
+    ],
+    extras_require={"test": ["pytest"]},
     entry_points="""
         [console_scripts]
         warcdb=warcdb:warcdb_cli
