@@ -7,8 +7,8 @@ VERSION = "0.1.0"
 
 def get_long_description():
     with io.open(
-            os.path.join(os.path.dirname(os.path.abspath(__file__)), "README.md"),
-            encoding="utf8",
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "README.md"),
+        encoding="utf8",
     ) as fp:
         return fp.read()
 
@@ -28,7 +28,8 @@ setup(
         "warcio==1.7.4",
         "click==8.1.3",
         "more-itertools",
-        "tqdm"
+        "tqdm",
+        "requests",
     ],
     extras_require={"test": ["pytest"]},
     entry_points="""
@@ -51,5 +52,5 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
-    ]
+    ],
 )
