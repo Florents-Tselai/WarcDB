@@ -69,7 +69,7 @@ setattr(ArcWarcRecord, 'as_dict', record_as_dict)
 
 class WarcDB(MutableMapping):
     """
-    Wraper around sqlite_utils.Database
+    Wrapper around sqlite_utils.Database
 
     WarcDB acts as a Mapping (id: str -> r: ArcWarcRecord).
 
