@@ -18,7 +18,7 @@ warcdb import archive.warcdb ./tests/google.warc ./tests/frontpages.warc.gz "htt
 
 warcdb enable-fts ./archive.warcdb response payload
 
-# Saarch for records that mention "stocks" in their response body
+# Search for records that mention "stocks" in their response body
 warcdb search ./archive.warcdb response "stocks" -c "WARC-Record-ID"
 ```
 As you can see you can use any mix of local/remote and raw/compressed archives.
@@ -107,6 +107,22 @@ where json_extract(h.value, '$.header') like '%Cookie%'
 SQL
 ```
 
+## Develop
+
+You can use poetry to install dependencies and run the tests:
+
+```
+$ git clone https://github.com/Florents-Tselai/WarcDB.git
+$ cd WarcDB
+$ poetry install
+$ poetry run pytest
+```
+
+Then when you are ready to publish to PyPI:
+
+```
+$ poetry publish --build
+```
 
 Resources on WARC
 ----------------
