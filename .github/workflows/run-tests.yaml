@@ -18,6 +18,7 @@ jobs:
       - name: Install test requirements
         run: |
           pip install poetry
+          poetry install
 
       - name: Run tests
         run: |
