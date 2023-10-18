@@ -1,23 +1,18 @@
 import datetime
-import sys
-import warnings
-import click
-import sqlite_utils
-from textwrap import dedent
-import warcio
-from json import JSONEncoder, dumps
-from warcio import ArchiveIterator, StatusAndHeaders
-from more_itertools import always_iterable
-from http.client import HTTPMessage, HTTPResponse
-from email.parser import Parser, HeaderParser
 from collections.abc import MutableMapping
-from warcio.recordloader import ArcWarcRecord, ArcWarcRecordLoader
-from warcio.recordbuilder import RecordBuilder
-from typing import Iterable
 from functools import cache
 from itertools import chain
+from json import dumps
+
+import click
 import requests as req
+import sqlite_utils
+from more_itertools import always_iterable
 from tqdm import tqdm
+from warcio import ArchiveIterator, StatusAndHeaders
+from warcio.recordloader import ArcWarcRecord
+
+from warcdb.migrations import migration
 
 
 def dict_union(*args):
@@ -230,10 +225,23 @@ warcdb_cli.help = \
     "Commands for interacting with .warcdb files\n\nBased on SQLite-Utils"
 
 
+@warcdb_cli.command('init')
+@click.argument(
+    "db_path",
+    type=click.Path(file_okay=True, dir_okay=False, exists=False, allow_dash=False),
+)
+def init (db_path):
+    """
+    Initialize a new warcdb database
+    """
+    db = WarcDB(db_path)
+    migration.apply(db.db)
+
+
 @warcdb_cli.command('import')
 @click.argument(
     "db_path",
-    type=click.Path(file_okay=True, dir_okay=False, allow_dash=False),
+    type=click.Path(file_okay=True, dir_okay=False, exists=True, allow_dash=False),
 )
 @click.argument('warc_path',
                 type=click.STRING,
@@ -243,6 +251,9 @@ warcdb_cli.help = \
               type=click.INT, default=1000,
               help="Batch size for chunked INSERTs [Note: ignored for now]", )
 def import_(db_path, warc_path, batch_size):
+    """
+    Import a WARC file into the database
+    """
     db = WarcDB(db_path, batch_size=batch_size)
 
     # if batch_size:

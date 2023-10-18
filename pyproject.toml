@@ -22,6 +22,7 @@ click = "^8.1"
 more-itertools = "^10.1"
 tqdm = "^4.66"
 requests = "^2.31"
+sqlite-migrate = "^0"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.4"
