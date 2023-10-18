@@ -17,8 +17,9 @@ jobs:
 
       - name: Install test requirements
         run: |
-          pip install tox
+          pip install poetry
+          poetry install
 
       - name: Run tests
         run: |
-          tox
+          poetry run pytest

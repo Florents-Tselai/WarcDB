@@ -3,3 +3,5 @@ dist/
 warcio_sqlite.egg-info/
 .idea/
 *.db
+poetry.lock
+__pycache__
