@@ -1,11 +1,11 @@
-from click.testing import CliRunner
-from warcdb import warcdb_cli
 import os
-import re
 import pathlib
+import re
+
 import pytest
 import sqlite_utils
-from unittest import TestCase
+from click.testing import CliRunner
+from warcdb import warcdb_cli
 
 db_file = "test_warc.db"
 tests_dir = pathlib.Path(__file__).parent

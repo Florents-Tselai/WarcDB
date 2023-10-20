@@ -264,6 +264,7 @@ def import_(db_path, warc_path, batch_size):
             if f.startswith('http'):
                 yield from tqdm(ArchiveIterator(req.get(f, stream=True).raw, arc2warc=True), desc=f)
             elif f.endswith('.wacz'):
+                # TODO: can we support loading WACZ files by URL?
                 wacz = zipfile.ZipFile(f)
                 warcs = filter(lambda f: f.filename.endswith('warc.gz'), wacz.infolist())
                 for warc in warcs:
