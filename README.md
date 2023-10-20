@@ -13,6 +13,9 @@ pip install warcdb
 
 ```shell
 
+# Create the database `archive.warcdb`.
+warcdb init archive.warcdb
+
 # Load the `archive.warcdb` file with data.
 warcdb import archive.warcdb ./tests/google.warc ./tests/frontpages.warc.gz "https://tselai.com/data/google.warc"
 
@@ -35,8 +38,16 @@ Individual `.warc` files are read and parsed and their data is inserted into an 
 
 ## Schema
 
-Here's the relational schema of the `.warcdb` file.
+If there is a new major or minor version of warcdb you may need to migrate existing databases to use the new database schema (if there have been any changes). To do this you first upgrade warcdb, and then migrate the database:
 
+```shell
+pip install --upgrade warcdb
+warcdb migrate archive.warcdb
+```
+
+If there are no migrations to run the `migrate` command will do nothing.
+
+Here's the relational schema of the `.warcdb` file.
 
 ![WarcDB Schema](schema.png)
 
