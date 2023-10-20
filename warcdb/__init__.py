@@ -46,8 +46,7 @@ setattr(ArcWarcRecord, 'payload', record_payload)
 @cache
 def record_as_dict(self: ArcWarcRecord):
     """Method to easily represent a record as a dict, to be fed into db_utils.Database.insert()"""
-
-    return dict(self.rec_headers.headers)
+    return {k.lower().replace('-', '_'): v for k, v in self.rec_headers.headers}
 
 
 setattr(ArcWarcRecord, 'as_dict', record_as_dict)
@@ -135,14 +134,14 @@ class WarcDB(MutableMapping):
         ====
 
         * For all rec_types: also store WARC/1.0 field (warc and version?)
-        * Todo pass conversions: {'Content-Length': int, WARC-Date: datet
+        * Todo pass conversions: {'Content-Length': int, warc-date: datet
         * All 'response', 'resource', 'request', 'revisit', 'conversion' and 'continuation' records may have a payload.
         All 'warcinfo' and 'metadata' records shall not have a payload.
         """
         col_type_conversions = {
-            'Content-Length': int,
+            'content_length': int,
             'payload': str,
-            'WARC-Date': datetime.datetime,
+            'warc_date': datetime.datetime,
 
         }
         record_dict = r.as_dict()
@@ -161,15 +160,15 @@ class WarcDB(MutableMapping):
         if r.rec_type == 'warcinfo':
 
             self.db.table('warcinfo').insert(record_dict,
-                                             pk='WARC-Record-ID',
+                                             pk='warc_record_id',
                                              alter=True,
                                              ignore=True,
                                              columns=col_type_conversions)
         elif r.rec_type == 'request':
             self.db.table('request').insert(record_dict,
-                                            pk='WARC-Record-ID',
+                                            pk='warc_record_id',
                                             foreign_keys=[
-                                                ("WARC-Warcinfo-ID", "warcinfo", "WARC-Record-ID")
+                                                ("warc_warcinfo_id", "warcinfo", "warc-record-id")
                                             ],
                                             alter=True,
                                             ignore=True,
@@ -178,10 +177,10 @@ class WarcDB(MutableMapping):
 
         elif r.rec_type == 'response':
             self.db.table('response').insert(record_dict,
-                                             pk='WARC-Record-ID',
+                                             pk='warc_record_id',
                                              foreign_keys=[
-                                                 ("WARC-Warcinfo-ID", "warcinfo", "WARC-Record-ID"),
-                                                 ("WARC-Concurrent-To", "request", "WARC-Record-ID")
+                                                 ("warc_warcinfo_id", "warcinfo", "warc_record_id"),
+                                                 ("warc_concurrent_to", "request", "warc_record_id")
                                              ],
                                              alter=True,
                                              ignore=True,
@@ -190,10 +189,10 @@ class WarcDB(MutableMapping):
 
         elif r.rec_type == 'metadata':
             self.db.table('metadata').insert(record_dict,
-                                             pk='WARC-Record-ID',
+                                             pk='warc_record_id',
                                              foreign_keys=[
-                                                 ("WARC-Warcinfo-ID", "warcinfo", "WARC-Record-ID"),
-                                                 ("WARC-Concurrent-To", "response", "WARC-Record-ID")
+                                                 ("warc-warcinfo-id", "warcinfo", "warc_record_id"),
+                                                 ("warc_concurrent_to", "response", "warc_record_id")
                                              ],
                                              alter=True,
                                              ignore=True,
@@ -202,10 +201,10 @@ class WarcDB(MutableMapping):
 
         elif r.rec_type == 'resource':
             self.db.table('resource').insert(record_dict,
-                                             pk='WARC-Record-ID',
+                                             pk='warc_record_id',
                                              foreign_keys=[
-                                                 ("WARC-Warcinfo-ID", "warcinfo", "WARC-Record-ID"),
-                                                 ("WARC-Concurrent-To", "metadata", "WARC-Record-ID")
+                                                 ("warc-warcinfo-id", "warcinfo", "warc_record_id"),
+                                                 ("warc_concurrent_to", "metadata", "warc_record_id")
                                              ],
                                              alter=True,
                                              ignore=True,
