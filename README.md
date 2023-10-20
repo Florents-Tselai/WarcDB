@@ -3,7 +3,7 @@
 `WarcDB` is a an `SQLite`-based file format that makes web crawl data easier to share and query.
 
 It is based on the standardized [Web ARChive format](https://en.wikipedia.org/wiki/Web_ARChive),
-used by web archivers.
+used by web archives, and defined in [ISO 28500:2017](https://iipc.github.io/warc-specifications/specifications/warc-format/warc-1.1/).
 
 ## Usage
 
@@ -30,6 +30,12 @@ For example to get a part of the [Common Crawl January 2022 Crawl Archive ](http
 
 ```shell
 warcdb import archive.warcdb "https://data.commoncrawl.org/crawl-data/CC-MAIN-2022-05/segments/1642320306346.64/warc/CC-MAIN-20220128212503-20220129002503-00719.warc.gz
+```
+
+You can also import WARC files contained in [WACZ](https://specs.webrecorder.net/wacz/latest) files, that are created by tools like [ArchiveWeb.Page](https://archiveweb.page), [Browsertrix-Crawler](https://github.com/webrecorder/browsertrix-crawler), and [Scoop](https://github.com/harvard-lil/scoop).
+
+```shell
+warcdb import archive.warcdb archive.wacz
 ```
 
 ## How It Works

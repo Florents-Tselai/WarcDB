@@ -1,11 +1,11 @@
-from click.testing import CliRunner
-from warcdb import warcdb_cli
 import os
-import re
 import pathlib
+import re
+
 import pytest
 import sqlite_utils
-from unittest import TestCase
+from click.testing import CliRunner
+from warcdb import warcdb_cli
 
 db_file = "test_warc.db"
 tests_dir = pathlib.Path(__file__).parent
@@ -16,6 +16,7 @@ tests_dir = pathlib.Path(__file__).parent
 @pytest.mark.parametrize("warc_path", [str(tests_dir / "google.warc"),
                                        str(tests_dir / "google.warc.gz"),
                                        str(tests_dir / "no-warc-info.warc"),
+                                       str(tests_dir / "scoop.wacz"),
                                        "https://tselai.com/data/google.warc",
                                        "https://tselai.com/data/google.warc.gz"
                                        ])
