@@ -1,4 +1,5 @@
 import datetime
+import zipfile
 from collections.abc import MutableMapping
 from functools import cache
 from itertools import chain
@@ -152,7 +153,7 @@ class WarcDB(MutableMapping):
             record_dict['payload'] = r.payload()
 
         # Certain rec_types have http_headers
-        has_http_headers = r.rec_type in ['request', 'response']
+        has_http_headers = r.http_headers is not None
         if has_http_headers:
             record_dict['http_headers'] = r.http_headers.to_json()
 
@@ -261,13 +262,14 @@ def import_(db_path, warc_path, batch_size):
     def to_import():
         for f in always_iterable(warc_path):
             if f.startswith('http'):
-                for record in tqdm(ArchiveIterator(req.get(f, stream=True).raw, arc2warc=True),
-                                   desc=f):
-                    yield record
+                yield from tqdm(ArchiveIterator(req.get(f, stream=True).raw, arc2warc=True), desc=f)
+            elif f.endswith('.wacz'):
+                wacz = zipfile.ZipFile(f)
+                warcs = filter(lambda f: f.filename.endswith('warc.gz'), wacz.infolist())
+                for warc in warcs:
+                    yield from tqdm(ArchiveIterator(wacz.open(warc.filename, 'r'), arc2warc=True), desc=warc.filename)
             else:
-                with open(f, 'rb') as stream:
-                    for record in tqdm(ArchiveIterator(stream), desc=f):
-                        yield record
+                yield from tqdm(ArchiveIterator(open(f, 'rb'), arc2warc=True), desc=f)
 
     for r in to_import():
         db += r
