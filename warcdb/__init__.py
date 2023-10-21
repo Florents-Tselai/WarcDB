@@ -225,23 +225,10 @@ warcdb_cli.help = \
     "Commands for interacting with .warcdb files\n\nBased on SQLite-Utils"
 
 
-@warcdb_cli.command('init')
-@click.argument(
-    "db_path",
-    type=click.Path(file_okay=True, dir_okay=False, exists=False, allow_dash=False),
-)
-def init (db_path):
-    """
-    Initialize a new warcdb database
-    """
-    db = WarcDB(db_path)
-    migration.apply(db.db)
-
-
 @warcdb_cli.command('import')
 @click.argument(
     "db_path",
-    type=click.Path(file_okay=True, dir_okay=False, exists=True, allow_dash=False),
+    type=click.Path(file_okay=True, dir_okay=False, allow_dash=False),
 )
 @click.argument('warc_path',
                 type=click.STRING,
@@ -255,6 +242,9 @@ def import_(db_path, warc_path, batch_size):
     Import a WARC file into the database
     """
     db = WarcDB(db_path, batch_size=batch_size)
+
+    # ensure the schema is there and up to date
+    migration.apply(db.db)
 
     # if batch_size:
     #    warnings.warn("--batch-size has been temporarily disabled")

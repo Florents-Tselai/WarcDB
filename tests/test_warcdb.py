@@ -24,11 +24,6 @@ tests_dir = pathlib.Path(__file__).parent
 
 def test_import(warc_path):
     runner = CliRunner()
-
-    # initialize db
-    result = runner.invoke(warcdb_cli, ['init', db_file])
-    assert result.exit_code == 0
-
     args = ["import", db_file, warc_path]
     result = runner.invoke(warcdb_cli, args)
     assert result.exit_code == 0
@@ -46,7 +41,6 @@ def test_import(warc_path):
 
 def test_column_names():
     runner = CliRunner()
-    runner.invoke(warcdb_cli, ['init', db_file])
     runner.invoke(warcdb_cli, ["import", db_file, str(pathlib.Path('tests/google.warc'))])
 
     # make sure that the columns are named correctly (lowercase with underscores)
