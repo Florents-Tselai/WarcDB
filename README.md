@@ -31,7 +31,7 @@ warcdb import archive.warcdb "https://data.commoncrawl.org/crawl-data/CC-MAIN-20
 You can also import WARC files contained in [WACZ](https://specs.webrecorder.net/wacz/latest) files, that are created by tools like [ArchiveWeb.Page](https://archiveweb.page), [Browsertrix-Crawler](https://github.com/webrecorder/browsertrix-crawler), and [Scoop](https://github.com/harvard-lil/scoop).
 
 ```shell
-warcdb import archive.warcdb archive.wacz
+warcdb import archive.warcdb tests/scoop.wacz
 ```
 
 ## How It Works
