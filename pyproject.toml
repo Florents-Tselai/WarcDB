@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "warcdb"
-version = "0.2.1"
+version = "0.2.2"
 description = "WarcDB: Web crawl data as SQLite databases"
 authors = ["Florents Tselai <florents@tselai.com>"]
 readme = "README.md"
