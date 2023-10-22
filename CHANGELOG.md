@@ -1,4 +1,4 @@
-### WarcDB v0.2.0 (October 21, 2023) ###
+### WarcDB v0.2.0 (October 22, 2023) ###
 
 Thanks to Ed Summers ([@edsu](https://github.com/edsu)) for his work on this 
 release 
