@@ -20,6 +20,9 @@ jobs:
           pip install poetry
           poetry install
 
+      - name: Check formatting
+        run: poetry run black --check .
+
       - name: Run tests
         run: |
           poetry run pytest
