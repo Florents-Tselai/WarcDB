@@ -52,6 +52,9 @@ Here's the relational schema of the `.warcdb` file.
 
 ![WarcDB Schema](schema.png)
 
+In addition to the core tables that map to the WARC record types there are also helper views that make it a bit easier to query data:
+
+- *http_header*: A view of HTTP headers in responses where each row is a tuple of `(warc_record_id, name, value)` 
 
 ## Motivation
 

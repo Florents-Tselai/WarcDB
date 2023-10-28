@@ -95,3 +95,17 @@ def m001_initial(db):
             ("warc_concurrent_to", "metadata", "warc_record_id"),
         ],
     )
+
+
+@migration()
+def m002_headers(db):
+    db.create_view(
+        "http_header",
+        """
+            SELECT
+                response.warc_record_id AS warc_record_id,
+                LOWER(JSON_EXTRACT(header.VALUE, '$.header')) AS name,
+                JSON_EXTRACT(header.VALUE, '$.value') AS value
+            FROM response, JSON_EACH(response.http_headers) AS header
+        """,
+    )
