@@ -119,3 +119,8 @@ def m002_headers(db):
             FROM response, JSON_EACH(response.http_headers) AS header
         """,
     )
+
+
+@migration()
+def m003_status(db):
+    db["response"].add_column("http_status", int)

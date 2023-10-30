@@ -89,3 +89,15 @@ def test_http_header():
         "value": "Wget/1.21.3",
         "warc_record_id": "<urn:uuid:6E9096E2-5D54-4CD6-A157-1DE4A7040DEB>",
     } in req_headers
+
+
+def test_http_header():
+    runner = CliRunner()
+    runner.invoke(
+        warcdb_cli, ["import", db_file, str(pathlib.Path("tests/google.warc"))]
+    )
+    db = sqlite_utils.Database(db_file)
+    responses = db["response"].rows
+    assert next(responses)["http_status"] == 301
+    assert next(responses)["http_status"] == 302
+    assert next(responses)["http_status"] == 200
