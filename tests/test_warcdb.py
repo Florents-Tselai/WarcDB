@@ -64,3 +64,28 @@ def test_column_names():
             assert re.match(r"^[a-z_]+", col.name), f"column {col.name} named correctly"
 
     os.remove(db_file)
+
+
+def test_http_header():
+    runner = CliRunner()
+    runner.invoke(
+        warcdb_cli, ["import", db_file, str(pathlib.Path("tests/google.warc"))]
+    )
+
+    db = sqlite_utils.Database(db_file)
+
+    resp_headers = list(db["v_response_http_header"].rows)
+    assert len(resp_headers) == 43
+    assert {
+        "name": "content-type",
+        "value": "text/html; charset=UTF-8",
+        "warc_record_id": "<urn:uuid:2008CBED-030B-435B-A4DF-09A842DDB764>",
+    } in resp_headers
+
+    req_headers = list(db["v_request_http_header"].rows)
+    assert len(req_headers) == 17
+    assert {
+        "name": "user-agent",
+        "value": "Wget/1.21.3",
+        "warc_record_id": "<urn:uuid:6E9096E2-5D54-4CD6-A157-1DE4A7040DEB>",
+    } in req_headers

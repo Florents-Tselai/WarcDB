@@ -52,6 +52,29 @@ Here's the relational schema of the `.warcdb` file.
 
 ![WarcDB Schema](schema.png)
 
+### Views
+
+In addition to the core tables that map to the WARC record types there are also helper *views* that make it a bit easier to query data:
+
+#### v_request_http_header
+
+A view of HTTP headers in WARC request records:
+
+| Column Name    | Column Type | Description                                                              |
+| -------------- | ----------- | ----------------------------------------------------------------------   |
+| warc_record_id | text        | The WARC-Record-Id for the *request* record that it was extracted from.  |
+| name           | text        | The lowercased HTTP header name (e.g. content-type)                      |
+| value          | text        | The HTTP header value (e.g. text/html)                                   |
+
+#### v_response_http_header
+
+A view of HTTP headers in WARC response records:
+
+| Column Name    | Column Type | Description                                                              |
+| -------------- | ----------- | ----------------------------------------------------------------------   |
+| warc_record_id | text        | The WARC-Record-Id for the *response* record that it was extracted from. |
+| name           | text        | The lowercased HTTP header name (e.g. content-type)                      |
+| value          | text        | The HTTP header value (e.g. text/html)                                   |
 
 ## Motivation
 
