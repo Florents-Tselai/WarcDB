@@ -87,7 +87,5 @@ def test_http_header():
     assert {
         "name": "user-agent",
         "value": "Wget/1.21.3",
-        "warc_record_id": "<urn:uuid:6E9096E2-5D54-4CD6-A157-1DE4A7040DEB>"
+        "warc_record_id": "<urn:uuid:6E9096E2-5D54-4CD6-A157-1DE4A7040DEB>",
     } in req_headers
-
-
