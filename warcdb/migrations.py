@@ -100,7 +100,17 @@ def m001_initial(db):
 @migration()
 def m002_headers(db):
     db.create_view(
-        "http_header",
+        "v_request_http_header",
+        """
+            SELECT
+                request.warc_record_id AS warc_record_id,
+                LOWER(JSON_EXTRACT(header.VALUE, '$.header')) AS name,
+                JSON_EXTRACT(header.VALUE, '$.value') AS value
+            FROM request, JSON_EACH(request.http_headers) AS header
+        """,
+    )
+    db.create_view(
+        "v_response_http_header",
         """
             SELECT
                 response.warc_record_id AS warc_record_id,
