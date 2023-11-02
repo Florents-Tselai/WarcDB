@@ -182,6 +182,8 @@ class WarcDB(MutableMapping):
             )
 
         elif r.rec_type == "response":
+            if r.http_headers:
+                record_dict["http_status"] = r.http_headers.get_statuscode()
             self.db.table("response").insert(
                 record_dict,
                 pk="warc_record_id",
