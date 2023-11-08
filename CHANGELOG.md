@@ -1,4 +1,10 @@
-### WarcDB v0.2.0 (October 21, 2023) ###
+### WarcDB v0.?.0 (Month DD, YYYY) ###
+
+* Add Black formatting ([#23](https://github.com/Florents-Tselai/WarcDB/pull/23))
+* Add a view for HTTP headers ([#25](https://github.com/Florents-Tselai/WarcDB/pull/25))
+* Model response status ([#26](https://github.com/Florents-Tselai/WarcDB/pull/26))
+
+### WarcDB v0.2.2 (October 21, 2023) ###
 
 Thanks to Ed Summers ([@edsu](https://github.com/edsu)) for his work on this 
 release 
