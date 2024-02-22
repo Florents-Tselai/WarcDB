@@ -3,7 +3,8 @@
 [![PyPI](https://img.shields.io/pypi/v/warcdb.svg)](https://pypi.org/project/warcdb/)
 [![Tests](https://github.com/Florents-Tselai/WarcDB/actions/workflows/run-tests.yaml/badge.svg?branch=main)](https://github.com/Florents-Tselai/WarcDB/actions/workflows/run-tests.yaml)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/Florents-Tselai/WarcDB/blob/main/LICENSE)
-[![GitHub Stars](https://img.shields.io/github/stars/Florents-Tselai/WarcDB)
+![GitHub Stars](https://img.shields.io/github/stars/Florents-Tselai/WarcDB)
+
 
 `WarcDB` is an `SQLite`-based file format that makes web crawl data easier to share and query.
 
