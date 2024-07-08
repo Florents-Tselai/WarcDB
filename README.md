@@ -4,6 +4,8 @@
 [![Tests](https://github.com/Florents-Tselai/WarcDB/actions/workflows/run-tests.yaml/badge.svg?branch=main)](https://github.com/Florents-Tselai/WarcDB/actions/workflows/run-tests.yaml)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/Florents-Tselai/WarcDB/blob/main/LICENSE)
 ![GitHub Stars](https://img.shields.io/github/stars/Florents-Tselai/WarcDB)
+[![Linkedin](https://img.shields.io/badge/LinkedIn-0077B5?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/florentstselai/)
+[![Github Sponsors](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&link=https://github.com/sponsors/Florents-Tselai/)](https://github.com/sponsors/Florents-Tselai/)
 
 
 `WarcDB` is an `SQLite`-based file format that makes web crawl data easier to share and query.
