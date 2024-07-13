@@ -33,7 +33,7 @@ jobs:
       - name: Run tests
         run: |-
           ls -lah
-          pytest --cov=tsellm --cov-report xml:coverage.xml --cov-report term
+          pytest --cov=warcdb --cov-report xml:coverage.xml --cov-report term
           ls -lah
 
       - name: Upload coverage reports to Codecov
